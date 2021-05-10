@@ -1,6 +1,6 @@
 'use strict';
 
-loadDocA("libros.xml", xml);
+loadDocA("libros.xml", "xml");
 function gestionarFicheroXML(fichero)
 {
     alert(fichero);
