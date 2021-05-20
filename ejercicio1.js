@@ -15,4 +15,4 @@ function CargarFichero()
 	loadDocA("libros.xml","xml");
 }
 
-gestionarFicheroXML(libros);
+gestionarFicheroXML();
