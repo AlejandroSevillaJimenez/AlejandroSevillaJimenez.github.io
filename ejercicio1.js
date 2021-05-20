@@ -2,7 +2,7 @@
 
 function gestionarFicheroXML(xmlDoc){
 	let capaVacia = document.querySelector("tabla")
-	let alumnos = xmlDoc.querySelectorAll("libro")
+	let libros = xmlDoc.querySelectorAll("libro")
 	for(let i=0; i<libros.length; i++)
 		tabla.innerHTML += "<div class = 'fila'>" + libros[i].textContent + "<div class = 'celda'>" + libros[i].querySelector("ISBN");
 
@@ -14,3 +14,5 @@ function CargarFichero()
 {
 	loadDocA("libros.xml","xml");
 }
+
+gestionarFicheroXML(libros);
