@@ -1,10 +1,16 @@
 'use strict';
 
-loadDocA("libros.xml", "xml");
-
 function gestionarFicheroXML(xmlDoc){
-	let tabla = document.querySelector("tabla");
-	let libros = xmlDoc.querySelectorAll("libro");
+	let capaVacia = document.querySelector("tabla")
+	let alumnos = xmlDoc.querySelectorAll("libro")
 	for(let i=0; i<libros.length; i++)
 		tabla.innerHTML += "<div class = 'fila'>" + libros[i].textContent + "<div class = 'celda'>" + libros[i].querySelector("ISBN");
+
+}
+
+let capa = document.querySelector("div:nth-child(1)")
+capa.addEventListener("click",CargarFichero);
+function CargarFichero()
+{
+	loadDocA("libros.xml","xml");
 }
