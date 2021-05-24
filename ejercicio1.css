@@ -1,14 +1,9 @@
-.tabla
-{
-    display: table;
+table {
 }
-
-.fila
-{
-    
+td {
+    padding: 2px;
+    border: 1px solid #dadada;
 }
-
-.celda
-{
-    
+.EvenRow {
+    /*	background-color: yellow;*/
 }
