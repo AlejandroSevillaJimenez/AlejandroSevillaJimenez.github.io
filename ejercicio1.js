@@ -1,18 +1,74 @@
-'use strict';
 
-function gestionarFicheroXML(xmlDoc){
-	let capaVacia = document.querySelector("tabla")
-	let libros = xmlDoc.querySelectorAll("libro")
-	for(let i=0; i<libros.length; i++)
-		tabla.innerHTML += "<div class = 'fila'>" + libros[i].textContent + "<div class = 'celda'>" + libros[i].querySelector("ISBN");
+window.addEventListener("load", function() {
+    getRows();
+});
 
+function getRows() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("get", "libros.xml", true);
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            showResult(this);
+        }
+    };
+    xmlhttp.send(null);
 }
 
-let capa = document.querySelector("div:nth-child(1)")
-capa.addEventListener("click",CargarFichero);
-function CargarFichero()
-{
-	loadDocA("libros.xml","xml");
+function showResult(xmlhttp) {
+    var xmlDoc = xmlhttp.responseXML.documentElement;
+    removeWhitespace(xmlDoc);
+    var outputTabla1 = document.getElementById("tabla1");
+    var outputTabla2 = document.getElementById("tabla2");
+    var rowData = xmlDoc.getElementsByTagName("libreria");
+
+    addTableRowsFromXmlDoc(rowData[0].childNodes,outputTabla1,'Tabla 1');
+    addTableRowsFromXmlDoc(rowData[1].childNodes,outputTabla1,'Tabla 2');
+    /*
+    for (i=0; i<xmlNodes.length; i++) {
+        if (i==0){
+            addTableRowsFromXmlDoc(rowData[0].childNodes,outputTabla1);
+        }else{
+            addTableRowsFromXmlDoc(rowData[1].childNodes,outputTabla2);
+        }
+        
+    }
+    */
+
+    //addTableRowsFromXmlDoc(rowData,outputResult);
 }
 
-gestionarFicheroXML();
+function addTableRowsFromXmlDoc(xmlNodes,tableNode,nombreTabla) {
+    var theTable = tableNode.parentNode;
+    var newRow, newCell, i;
+    console.log ("Number of nodes: " + xmlNodes.length);
+    for (i=0; i<xmlNodes.length; i++) {
+        newRow = tableNode.insertRow(i);
+        newRow.className = (i%2) ? "OddRow" : "EvenRow";
+        for (j=0; j<xmlNodes[i].childNodes.length; j++) {
+            newCell = newRow.insertCell(newRow.cells.length);
+            if (xmlNodes[i].childNodes[j].firstChild) {
+                newCell.innerHTML = xmlNodes[i].childNodes[j].firstChild.nodeValue;
+            } else {
+                newCell.innerHTML = nombreTabla;
+            }
+            console.log("cell: " + newCell);
+        }
+        }
+        theTable.appendChild(tableNode);
+}
+
+function removeWhitespace(xml) {
+    var loopIndex;
+    for (loopIndex = 0; loopIndex < xml.childNodes.length; loopIndex++)
+    {
+        var currentNode = xml.childNodes[loopIndex];
+        if (currentNode.nodeType == 1)
+        {
+            removeWhitespace(currentNode);
+        }
+        if (!(/\S/.test(currentNode.nodeValue)) && (currentNode.nodeType == 3))
+        {
+            xml.removeChild(xml.childNodes[loopIndex--]);
+        }
+    }
+}
